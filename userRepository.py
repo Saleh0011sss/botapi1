@@ -3,7 +3,6 @@
 
 import random
 import pymongo
-import lepl.apps.rfc3696
 from bottle import run, post, get
 from passlib.hash import pbkdf2_sha256
 from pymongo import MongoClient, ReturnDocument
@@ -11,14 +10,14 @@ from pymongo import MongoClient, ReturnDocument
 dbPath = 'localhost'
 client = MongoClient(dbPath)
 db = client['hackUPC']
-emailValidator = lepl.apps.rfc3696.Email()
 
 """
-API METHODS: 
-- createUser(chatID, email, password, phone) :: True | False
+API METHODS:
+- createUser(chatID, name, email, password, phone) :: True | False
 - getUserByChat(chatID) :: None | Dictionary
-- doesUserExist(chatID) :: True | False
-- insertPayment(chatID, cardNumber, expDate, CVC) :: True | False
+- userExists(chatID) :: True | False
+- addPayment(chatID, cardNumber, expDate, CVC) :: True | False
+- paymentExists(chatID, cardNumber) :: True | False
 """
 
 def encryptPass(password):
@@ -38,17 +37,26 @@ def isTypeOf(_elemn, typeStr):
     elif typeStr == "Number":
         return isinstance(_elemn, num)
     return False 
+"""
+Returns true if the user does not exist on our system
+and True in the other case
+"""
+def userExists(chatID):
+    return isTypeOf(chatID, 'String') and db.users.find_one({ '_id' : chatID }) != None
+
 
 """
 Return False if the user exists or some parameters are not valid
 and True if the user was inserted correctly.
 """
-def createUser(chatID, email, password, phone):
-    if not emailValidator(email):
+def createUser(chatID, name, email, password, phone):
+    
+    if userExists(chatID):
         return False
 
     user = {
         '_id' : str(chatID),
+        'name' : str(name),
         'email' : str(email),
         'password' : encryptPass(str(password)),
         'phone' : str(phone),
@@ -72,34 +80,28 @@ def getUserByChat(chatID):
     return db.users.find_one({ '_id' : chatID });
 
 """
-Returns true if the user does not exist on our system
-and True in the other case
+Returns true if the payment is already in our system
+False if there is any payment with that number
 """
-def doesUserExist(chatID):
-    return isTypeOf(chatID, 'String') and db.users.find_one({ '_id' : chatID }) != None
-
-"""
-Returns Dictionary if the user was found
-and None in the rest of cases. 
-"""
-def getUserCreditCard(chatID, creditCard):
-
-    if not isTypeOf(creditCard, 'String') or len(creditCard) <= 0:
-        return None
-    return db.users.find_one({ '_id': chatID, 'payments._id' : creditCard })
+def paymentExists(chatID, cardNumber):
+    if not isTypeOf(cardNumber, 'String') or len(cardNumber) <= 0:
+        return False
+    return db.users.find_one({ '_id': chatID, 'payments._id' : cardNumber })
 
 """
 Given chatID, cardNumber, expDate and CVV we store it into the user.
 Returns True if was successfully inserted
 False in other cases (eg, duplicated card number)
 """
-def insertPayment(chatID, cardNumber, expDate, CVC):
+def addPayment(chatID, cardNumber, expDate, CVC):
     
     user = getUserByChat(chatID)
-    if user == None: return False # user does not exist
+    
+    if user == None: 
+        return False # user does not exist
 
-    card = getUserCreditCard(chatID, cardNumber)
-    if card != None: return False # Card ID already on our system
+    if paymentExists(chatID, cardNumber):
+        return False # Card ID already on our system
 
     card = {
         '_id' : cardNumber,
@@ -109,17 +111,16 @@ def insertPayment(chatID, cardNumber, expDate, CVC):
 
     insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'payments' : card }}, True);
 
-    print insertedCard
     return True
 
-print "Created user: "
-print createUser('122031', 'jgferreiro.me@gmail.com', 1231, 696996)
+# print "Created user: "
+# print createUser('122031', 'Jorge', 'jgferreiro.me@gmail.com', 1231, 696996)
 
-print "User chat: "
-print getUserByChat('0012031')
+# print "User chat: "
+# print getUserByChat('0012031')
 
-print "Does user exist?: "
-print doesUserExist('0012031')
+# print "Does user exist?: "
+# print userExists('0012031')
 
-print "Inserted Payment: "
-print insertPayment('12031', '394294394394030', '12/20', '300')
+# print "Inserted Payment: "
+# print addPayment('12031', '3942294394394030', '12/20', '300')
