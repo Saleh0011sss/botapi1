@@ -18,6 +18,7 @@ API METHODS:
 - createUser(chatID, email, password, phone) :: True | False
 - getUserByChat(chatID) :: None | Dictionary
 - doesUserExist(chatID) :: True | False
+- insertPayment(chatID, cardNumber, expDate, CVC) :: True | False
 """
 
 def encryptPass(password):
@@ -78,12 +79,38 @@ def doesUserExist(chatID):
     return isTypeOf(chatID, 'String') and db.users.find_one({ '_id' : chatID }) != None
 
 """
+Returns Dictionary if the user was found
+and None in the rest of cases. 
+"""
+def getUserCreditCard(chatID, creditCard):
+
+    if not isTypeOf(creditCard, 'String') or len(creditCard) <= 0:
+        return None
+    return db.users.find_one({ '_id': chatID, 'payments._id' : creditCard })
+
+"""
 Given chatID, cardNumber, expDate and CVV we store it into the user.
 Returns True if was successfully inserted
 False in other cases (eg, duplicated card number)
 """
-def insertPayment(chatID, cardNumber, expDate, CVV):
-    pass
+def insertPayment(chatID, cardNumber, expDate, CVC):
+    
+    user = getUserByChat(chatID)
+    if user == None: return False # user does not exist
+
+    card = getUserCreditCard(chatID, cardNumber)
+    if card != None: return False # Card ID already on our system
+
+    card = {
+        '_id' : cardNumber,
+        'expDate' : expDate,
+        'CVC' : CVC
+    }
+
+    insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'payments' : card }}, True);
+
+    print insertedCard
+    return True
 
 print "Created user: "
 print createUser('122031', 'jgferreiro.me@gmail.com', 1231, 696996)
@@ -95,4 +122,4 @@ print "Does user exist?: "
 print doesUserExist('0012031')
 
 print "Inserted Payment: "
-print insertPayment('12031', '3949439439403', '12/20', '300')
+print insertPayment('12031', '394294394394030', '12/20', '300')
