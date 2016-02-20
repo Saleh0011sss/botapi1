@@ -2,34 +2,27 @@
 Routes and views for the bottle application.
 """
 
-from bottle import route, view
 from datetime import datetime
+from json import dumps
+import telebot
+import logging
+import telebot
 
-@route('/')
-@route('/home')
-@view('index')
-def home():
-    """Renders the home page."""
-    return dict(
-        year=datetime.now().year
-    )
+API_TOKEN = '180215529:AAG8SnsyvXpb1ruSRLuLBM0ZF_55EBi8eq0'
+bot = telebot.TeleBot(API_TOKEN)
 
-@route('/contact')
-@view('contact')
-def contact():
-    """Renders the contact page."""
-    return dict(
-        title='Contact',
-        message='Your contact page.',
-        year=datetime.now().year
-    )
+# Handle '/start' and '/help'
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, """\
+Hi there, I am EchoBot.
+I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
+""")
 
-@route('/about')
-@view('about')
-def about():
-    """Renders the about page."""
-    return dict(
-        title='About',
-        message='Your application description page.',
-        year=datetime.now().year
-    )
+
+# Handle all other messages with content_type 'text' (content_types defaults to ['text'])
+@bot.message_handler(func=lambda message: True)
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+bot.polling()
