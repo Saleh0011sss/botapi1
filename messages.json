@@ -1,4 +1,7 @@
 {
-  "welcome": "Welcome!",
-  "help": "Use /start to receive message"
+  "welcome": "Welcome to mooBot! 👋🏻\n I'm here to make your travels more comfortable. These are all the actions that I can perform for you:\n\n- Use /route to create a new transport route\n- Use /parking to pay for parking taxes",
+  "help": "Use /start to receive message",
+  "route": {
+    "start": "Nice! Time to move, where do you want to go?"
+  }
 }
