@@ -20,8 +20,8 @@ def empty(data):
 def checkUser(chatID):
     return userExists(chatID)
 
+
 def createUser(chatID, name, email, password, phone):
-    
     if empty(chatID) or empty(name) or empty(email) or empty(chatID) or empty(password) or not emailValidator(email):
         return False # Validation fails
 
@@ -33,6 +33,11 @@ def addPayment(chatID, cardNumber, expDate, CVC):
         return False # Validation fails
 
     return database.addPayment(chatID, cardNumber, expDate, CVC)
+
+""" Returns None if user doesnt exist.
+    And the object if the user exists. """
+def getUser(chatID):
+    return database.getUserByChat(chatID)
 
 print createUser('32', 'Paco', 'paco@paco.com', '123', '121')
 print addPayment('121', '3942294394394030', '12/20', '300')
