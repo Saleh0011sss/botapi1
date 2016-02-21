@@ -29,7 +29,7 @@ def print_action(bot, msg, process_name, start_index, action):
     execute_action(bot, msg, process_name, start_index + 1)
 
 def prompt_action(bot, msg, process_name, start_index, action):
-    action['content'] = acti
+
     def validate(msg):
         if msg.text != '':
             user[action['field']] = msg.text
@@ -51,16 +51,17 @@ def execute_action(bot, msg, process_name, start_index):
         return
 
     if start_index == len(process_list[process_name]) - 1:
-        print user
-        # print model.createUser(
-        #     user['chatID'],
-        #     user['name'],
-        #     user['email'],
-        #     user['password'],
-        #     user['phone']
-        # )
-        # print "foo"
-        # print model.getUser(msg.chat.id)
+        # print user
+        print model.createUser(
+            user['chatID'],
+            user['name'],
+            user['email'],
+            user['password'],
+            user['phone']
+        )
+        print "foo"
+        print msg.chat.id
+        print model.getUserByChat(msg.chat.id)
 
     process_actions = process_list[process_name]
 

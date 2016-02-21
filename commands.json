@@ -14,17 +14,17 @@
         {
             "content": "So... You are in __X__, huh? Great city ;). How do you want to go to __City__?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Thanks for your patience. This is the route I've calculated for you.",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Do you want us to buy your tickets?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Alright! Before processing, we need the following data. What's your name?",
@@ -47,42 +47,42 @@
         {
             "content": "Meter foto super molona aquí",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Your credit card?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Credit card expiration Date?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Credit card CVV number?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "We're processing your order. Be patient ;)",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Greaaat!!! This is your ticket.",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Meter foto ticket super molona",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Bon voyage to __City__, __name__!",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         }
     ]
 }
