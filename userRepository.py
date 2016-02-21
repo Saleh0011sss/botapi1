@@ -13,11 +13,17 @@ db = client['hackUPC']
 
 """
 API METHODS:
-- createUser(chatID, name, email, password, phone) :: True | False
-- getUserByChat(chatID) :: None | Dictionary
+- addUser(chatID, name, email, password, phone) :: True | False
 - userExists(chatID) :: True | False
-- addPayment(chatID, cardNumber, expDate, CVC) :: True | False
-- paymentExists(chatID, cardNumber) :: True | False
+- getUserByChat(chatID) :: None | Dictionary
+
+- addCard(chatID, cardNumber, expDate, CVC) :: True | False
+- cardExist(chatID, cardNumber) :: True | False
+- getCardsUser(chatID) :: None | Dictionary
+
+- addPayment(chatID, creditNumber, descr, price, qty, orLat, orLon, destLat, destLon) :: True | False
+- paymentExist(chatID, cardNumber) :: True | False
+- getPaymentsUser(chatID) :: None | Dictionary
 """
 
 def encryptPass(password):
@@ -50,8 +56,8 @@ def userExists(chatID):
 Return False if the user exists or some parameters are not valid
 and True if the user was inserted correctly.
 """
-def createUser(chatID, name, email, password, phone):
-    
+def addUser(chatID, name, email, password, phone):
+
     if userExists(chatID):
         return False
 
@@ -61,19 +67,19 @@ def createUser(chatID, name, email, password, phone):
         'email' : str(email),
         'password' : encryptPass(str(password)),
         'phone' : str(phone),
-        'cards' : []
+        'cards' : [],
+        'payments' : []
     }
 
     try:
         result = db.users.insert_one(user)
     except:
         return False # Problems inserting your username to our database
-
     return True
 
 """
 Returns Dictionary if the user was found
-and None in the rest of cases. 
+and None in the rest of cases.
 """
 def getUserByChat(chatID):
     if not isTypeOf(chatID, 'String'):
@@ -84,24 +90,29 @@ def getUserByChat(chatID):
 Returns true if the payment is already in our system
 False if there is any payment with that number
 """
-def paymentExists(chatID, cardNumber):
+def cardExist(chatID, cardNumber):
     if not isTypeOf(cardNumber, 'String') or len(cardNumber) <= 0:
         return False
     return db.users.find_one({ '_id': chatID, 'cards._id' : cardNumber })
+
+def paymentExist(chatID, cardNumber):
+    if not isTypeOf(cardNumber, 'String') or len(cardNumber) <= 0:
+        return False
+    return db.users.find_one({ '_id': chatID, 'payments._id' : cardNumber })
 
 """
 Given chatID, cardNumber, expDate and CVV we store it into the user.
 Returns True if was successfully inserted
 False in other cases (eg, duplicated card number)
 """
-def addPayment(chatID, cardNumber, expDate, CVC):
-    
+def addCard(chatID, cardNumber, expDate, CVC):
+
     user = getUserByChat(chatID)
-    
-    if user == None: 
+
+    if user == None:
         return False # user does not exist
 
-    if paymentExists(chatID, cardNumber):
+    if cardExist(chatID, cardNumber):
         return False # Card ID already on our system
 
     card = {
@@ -113,14 +124,64 @@ def addPayment(chatID, cardNumber, expDate, CVC):
     insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'cards' : card }}, True);
     return True
 
-# print "Created user: "
-# print createUser('122031', 'Jorge', 'jgferreiro.me@gmail.com', 1231, 696996)
+def getCardsUser(chatID):
+    user = getUserByChat(chatID)
 
-# print "User chat: "
-# print getUserByChat('0012031')
+    if user == None: return None
+    return user['cards']
 
-# print "Does user exist?: "
-# print userExists('0012031')
+"""
+Add one payment to the user
+"""
+def addPayment(chatID, creditNumber, descr, price, qty, orLat, orLon, destLat, destLon):
 
-# print "Inserted Payment: "
-# print addPayment('12031', '3942294394394030', '12/20', '300')
+    user = getUserByChat(chatID)
+    
+    if user == None:
+        return False
+
+    if paymentExist(chatID, creditNumber):
+        return False # Card ID already on our system
+
+    payment = {
+        "_id" : creditNumber,
+        "description" : descr,
+        "price" : price,
+        "qty" : qty,
+        "origin" : {
+            "lat" : orLat,
+            "lon" : orLon
+        },
+        "destination" : {
+            "lat" : destLat,
+            "lon" : destLon
+        }
+    }
+
+    insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'payments' : payment }}, True);
+    return True
+
+def getPaymentsUser(chatID):
+    user = getUserByChat(chatID)
+
+    if user == None: return None
+    return user['payments']
+
+
+#### TESTS CASES
+
+userIDNum = "099"
+print "Created user ---- "
+print addUser(userIDNum, 'Raquel', 'lopez@hola.com', 1231, 696996)
+print "User ----"
+print getUserByChat(userIDNum)
+print "User exists----"
+print userExists(userIDNum)
+print "Add card----"
+print addCard(userIDNum, '12121212121', '12/20', '300')
+print "Cards----"
+print getCardsUser(userIDNum)
+print "Add Payment----"
+print addPayment(userIDNum, '12121212121', 'El puto mejor viaje', '23232', '2', '2', '3', '3', '3')
+print "Get paymens----"
+print getPaymentsUser(userIDNum)

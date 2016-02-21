@@ -18,10 +18,13 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['receipt'])
 def generate_receipt(message):
 
+    print message
     chat_id = message.chat.id
     username = message.chat.username
     firstName = message.chat.first_name
     print firstName
+    bot.send_location(chat_id, '20', '20')
+
     filename = '-' + firstName + '_' + username + '_bill.pdf'
 
     input_html = os.path.dirname(os.path.realpath(__file__)) + '/static/bill.html'
