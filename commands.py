@@ -106,23 +106,47 @@ def prompt_action(bot, msg, process_name, start_index, action):
 def location_action(bot, msg, process_name, start_index, action):
 
     def validate_location(msg):
-        if msg.text != 'Yes':
+        if msg.text == 'yes':
+            print "foo"
             execute_action(bot, msg, process_name, start_index + 1)
         else:
-            prompt_action(bot, msg, process_name, start_index, action)
-
-    bot.send_location(msg.chat.id, '41.382819', '2.116023')
+            location_action(bot, msg, process_name, start_index, action)
 
     bot.send_chat_action(msg.chat.id, action['alert'])
 
     bot.send_message(msg.chat.id, action['content'])
+
+    bot.send_chat_action(msg.chat.id, 'find_location')
+    bot.send_location(msg.chat.id, '41.382819', '2.116023')
+
     bot.register_next_step_handler(msg, validate_location)
+
+def selector_action(bot, msg, process_name, start_index, action):
+
+    def validate_location(msg):
+        if msg.text == 'yes':
+            print "foo"
+            execute_action(bot, msg, process_name, start_index + 1)
+        else:
+            location_action(bot, msg, process_name, start_index, action)
+
+    bot.send_chat_action(msg.chat.id, action['alert'])
+
+    bot.send_message(msg.chat.id, action['content'])
+
+    bot.send_chat_action(msg.chat.id, 'find_location')
+    bot.send_location(msg.chat.id, '41.382819', '2.116023')
+
+    bot.register_next_step_handler(msg, validate_location)
+
 
 def execute_action(bot, msg, process_name, start_index):
     if start_index == 0:
         user['chatID'] = msg.chat.id
         user['password'] = '111111'
 
+    print "bar"
+    print start_index
     if start_index > len(process_list[process_name]) - 1:
         return
 

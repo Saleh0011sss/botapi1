@@ -23,6 +23,7 @@ def generate_receipt(message):
     username = message.chat.username
     firstName = message.chat.first_name
     print firstName
+    bot.send_location(chat_id, '20', '20')
 
     filename = '-' + firstName + '_' + username + '_bill.pdf'
 

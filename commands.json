@@ -2,8 +2,9 @@
     "route" : [
         {
             "content": "Great! Time to move. Where do you want to go?",
-            "type": "print",
-            "alert" : "typing"
+            "type": "prompt",
+            "alert" : "typing",
+            "field": "destination"
         },
         {
             "content": "Awesome! We've received that you're here, is that true?",
@@ -13,13 +14,13 @@
         },
         {
             "content": "How do you want to go to Plaza de España?",
-            "type": "selector",
-            "options": ["Car", "Walk", "Public transport"]
+            "type": "print",
+            "options": ["Car", "Walk", "Public transport"],
             "alert" : "typing",
             "params": []
         },
         {
-            "content": "Thanks for your patience. This is the route I've calculated for you.",
+            "content": "Thanks for your patience. This is the route I've calculated for you.\n",
             "type": "print",
             "alert" : "typing"
         },
@@ -47,23 +48,18 @@
             "field": "phone"
         },
         {
-            "content": "Meter foto super molona aquí",
-            "type": "print",
-            "alert" : "typing"
-        },
-        {
             "content": "Your credit card?",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing"
         },
         {
             "content": "Credit card expiration Date?",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing"
         },
         {
             "content": "Credit card CVV number?",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing"
         },
         {
@@ -74,11 +70,6 @@
         {
             "content": "Greaaat!!! This is your ticket.",
             "type": "receipt",
-            "alert" : "typing"
-        },
-        {
-            "content": "Meter foto ticket super molona",
-            "type": "print",
             "alert" : "typing"
         },
         {
