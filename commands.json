@@ -50,17 +50,20 @@
         {
             "content": "Your credit card?",
             "type": "prompt",
-            "alert" : "typing"
+            "alert" : "typing",
+            "field": "card"
         },
         {
             "content": "Credit card expiration Date?",
             "type": "prompt",
-            "alert" : "typing"
+            "alert" : "typing",
+            "field": "expiration"
         },
         {
             "content": "Credit card CVV number?",
             "type": "prompt",
-            "alert" : "typing"
+            "alert" : "typing",
+            "field": "cvv"
         },
         {
             "content": "We're processing your order. Be patient ;)",
