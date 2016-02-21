@@ -1,0 +1,100 @@
+{
+    "route" : [
+        {
+            "content": "Great! Time to move. Where do you want to go?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Awesome! Now share your 🌎 location with me, so I know where you are",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "So... You are in __X__, huh? Great city ;). How do you want to go to __City__?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Thanks for your patience. This is the route I've calculated for you.",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        }, 
+        {
+            "content": "Do you want us to buy your tickets?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Alright! Before processing, we need the following data. What's your name?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Your email, __Nombre__?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "We're nearly... Your phone?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Meter foto super molona aquí",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Your credit card?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Credit card expiration Date?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Credit card CVV number?",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "We're processing your order. Be patient ;)",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Greaaat!!! This is your ticket.",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Meter foto ticket super molona",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        },
+        {
+            "content": "Von voyage to __City__, __Nombre__!",
+            "type": "printAction || promptAction",
+            "alert" : "typing || u",
+            "validation" : "Mail, Name, City, Message"
+        }
+    ]
+}
