@@ -103,6 +103,24 @@ def prompt_action(bot, msg, process_name, start_index, action):
     bot.send_message(msg.chat.id, action['content'])
     bot.register_next_step_handler(msg, validate_prompt)
 
+def selector_action(bot, msg, process_name, start_index, action):
+    params = action["params"]
+
+    def validate_prompt(msg):
+        if msg.text != '':
+            user[action['field']] = msg.text
+            execute_action(bot, msg, process_name, start_index + 1)
+        else:
+            prompt_action(bot, msg, process_name, start_index, action)
+
+    bot.send_chat_action(msg.chat.id, action['alert'])
+    bot.send_message(msg.chat.id, action['content'])
+
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    markup.add(params[0], params[1], params[2])
+    bot.send_message(msg.chat.id, action['content'], reply_markup=markup)
+    bot.register_next_step_handler(msg, validate_prompt)
+
 def location_action(bot, msg, process_name, start_index, action):
 
     def validate_location(msg):
