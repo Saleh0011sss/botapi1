@@ -5,3 +5,6 @@ pip install bottle
 pip install pymongo
 pip install LEPL
 pip install pyTelegramBotAPI
+pip install paypalrestsdk
+pip install pdfkit
+pip install pdfcrowd
