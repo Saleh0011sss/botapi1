@@ -28,7 +28,7 @@ def createUser(chatID, name, email, password, phone):
     return database.createUser(chatID, name, email, password, phone)
 
 def addPayment(chatID, cardNumber, expDate, CVC):
-    
+
     if empty(chatID) or empty(cardNumber) or empty(expDate) or empty(CVC):
         return False # Validation fails
 
@@ -38,6 +38,3 @@ def addPayment(chatID, cardNumber, expDate, CVC):
     And the object if the user exists. """
 def getUser(chatID):
     return database.getUserByChat(chatID)
-
-print createUser('32', 'Paco', 'paco@paco.com', '123', '121')
-print addPayment('121', '3942294394394030', '12/20', '300')

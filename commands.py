@@ -2,7 +2,16 @@
 # -*- coding: utf-8 -*-
 import json
 import utils
+import model
+import re
 
+user = {
+    'chatID': '',
+    'name': '',
+    'email': '',
+    'password': '',
+    'phone': ''
+}
 action_index = 0
 # process_list = process_list[cmd]
 # process_name = 'route'
@@ -20,21 +29,38 @@ def print_action(bot, msg, process_name, start_index, action):
     execute_action(bot, msg, process_name, start_index + 1)
 
 def prompt_action(bot, msg, process_name, start_index, action):
-
+    action['content'] = acti
     def validate(msg):
-        if msg.text == 'Alex':
+        if msg.text != '':
+            user[action['field']] = msg.text
             execute_action(bot, msg, process_name, start_index + 1)
         else:
             prompt_action(bot, msg, process_name, start_index, action)
 
     bot.send_chat_action(msg.chat.id, action['alert'])
-    bot.send_message(msg.chat.id, 'who\'s the best')
+    bot.send_message(msg.chat.id, action['content'])
     bot.register_next_step_handler(msg, validate)
 
 
 def execute_action(bot, msg, process_name, start_index):
-    if start_index >= len(process_list[process_name]) - 1:
+    if start_index == 0:
+        user['chatID'] = msg.chat.id
+        user['password'] = '111111'
+
+    if start_index > len(process_list[process_name]) - 1:
         return
+
+    if start_index == len(process_list[process_name]) - 1:
+        print user
+        # print model.createUser(
+        #     user['chatID'],
+        #     user['name'],
+        #     user['email'],
+        #     user['password'],
+        #     user['phone']
+        # )
+        # print "foo"
+        # print model.getUser(msg.chat.id)
 
     process_actions = process_list[process_name]
 
@@ -43,16 +69,6 @@ def execute_action(bot, msg, process_name, start_index):
         print_action(bot, msg, process_name, start_index, action)
     if action['type'] == 'prompt':
         prompt_action(bot, msg, process_name, start_index, action)
-
-# def prev_action():
-#     if currentStep <= 0:
-#         return
-#     currentStep -= 1
-#
-# def next_action():
-#     if inserted < currentStep:
-#         return
-#     currentStep += 1
 
 def info(bot, msg):
     cmd_name = utils.get_command_name(msg.text)
@@ -67,6 +83,16 @@ def info(bot, msg):
 def route(bot, msg):
     cmd_name = utils.get_command_name(msg.text)
     execute_action(bot, msg, cmd_name, 0)
+
+# def prev_action():
+#     if currentStep <= 0:
+#         return
+#     currentStep -= 1
+#
+# def next_action():
+#     if inserted < currentStep:
+#         return
+#     currentStep += 1
 
 # def step(bot):
 #     cmd = utils.get_command_name(msg.text)

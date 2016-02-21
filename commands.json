@@ -4,97 +4,85 @@
             "content": "Great! Time to move. Where do you want to go?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Awesome! Now share your 🌎 location with me, so I know where you are",
-            "type": "prompt",
+            "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
+            "field": "location"
         },
         {
             "content": "So... You are in __X__, huh? Great city ;). How do you want to go to __City__?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Thanks for your patience. This is the route I've calculated for you.",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Do you want us to buy your tickets?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Alright! Before processing, we need the following data. What's your name?",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
+            "field": "name"
         },
         {
-            "content": "Your email, __Nombre__?",
-            "type": "print",
+            "content": "Your email, __name__?",
+            "type": "prompt",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
+            "field": "email"
         },
         {
             "content": "We're nearly... Your phone?",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
+            "field": "phone"
         },
         {
             "content": "Meter foto super molona aquí",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Your credit card?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Credit card expiration Date?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Credit card CVV number?",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "We're processing your order. Be patient ;)",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Greaaat!!! This is your ticket.",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
             "content": "Meter foto ticket super molona",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         },
         {
-            "content": "Bon voyage to __City__, __Nombre__!",
+            "content": "Bon voyage to __City__, __name__!",
             "type": "print",
             "alert" : "typing",
-            "validation" : "Mail, Name, City, Message"
         }
     ]
 }
