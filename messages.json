@@ -1,6 +1,5 @@
 {
   "start": "Welcome to mooBot! 👋🏻\n I'm here to make your travels more comfortable. These are all the actions that I can perform for you:\n\n",
-  "help": "Use /start to receive message",
   "route": {
     "start": "Great! Time to move, where do you want to go?"
   }
