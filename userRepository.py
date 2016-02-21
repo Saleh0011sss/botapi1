@@ -36,7 +36,8 @@ def isTypeOf(_elemn, typeStr):
         return isinstance(_elemn, str)
     elif typeStr == "Number":
         return isinstance(_elemn, num)
-    return False 
+    return False
+
 """
 Returns true if the user does not exist on our system
 and True in the other case
@@ -60,7 +61,7 @@ def createUser(chatID, name, email, password, phone):
         'email' : str(email),
         'password' : encryptPass(str(password)),
         'phone' : str(phone),
-        'payments' : []
+        'cards' : []
     }
 
     try:
@@ -86,7 +87,7 @@ False if there is any payment with that number
 def paymentExists(chatID, cardNumber):
     if not isTypeOf(cardNumber, 'String') or len(cardNumber) <= 0:
         return False
-    return db.users.find_one({ '_id': chatID, 'payments._id' : cardNumber })
+    return db.users.find_one({ '_id': chatID, 'cards._id' : cardNumber })
 
 """
 Given chatID, cardNumber, expDate and CVV we store it into the user.
@@ -109,8 +110,7 @@ def addPayment(chatID, cardNumber, expDate, CVC):
         'CVC' : CVC
     }
 
-    insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'payments' : card }}, True);
-
+    insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'cards' : card }}, True);
     return True
 
 # print "Created user: "

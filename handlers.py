@@ -1,7 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import re
+import json
+import processManager as process_manager
 
 bot_msg = json.load(open('messages.json'))
-process_list = json.load(open('messages.json'))
 
 bot_commands = {
     'start': 'discover what\'s the purpose of Moobot',
@@ -11,30 +14,27 @@ bot_commands = {
 
 def get_bot_commands(prefix):
     cmds = ''
-    for key, value in commands.iteritems():
+    for key, value in bot_commands.iteritems():
         cmds += '- Use /' + key + ' to ' + value + '\n'
     return prefix + cmds
 
-def get_msg_command(msg):
-    cmd_re = re.compile('/([a-zA-Z0-9]+)')
-    return command_re.findall(msg)
+def get_msg_command(text):
+    return re.findall(r'/([a-zA-Z0-9]+)', text)[0]
 
-def process_handler(msg):
-    cmd = get_msg_command(msg)
+def process_handler(bot, msg):
+    cmdName = get_msg_command(msg.text)
+    process_manager.execute(bot, cmdName)
 
-    process = process_list(cmd)
-    process_manager.execute(process)
-
-def step_handler(msg):
-    cmd = get_msg_command(msg)
+def step_handler(bot):
+    cmd = get_msg_command(msg.text)
 
     if cmd == 'prev':
-        process_manager.prev_action()
+        process_manager.prev_action(bot)
     elif cmd == 'next':
-        process_manager.next_action()
+        process_manager.next_action(bot)
 
-def info_handler(msg):
-    cmd = get_msg_command(msg)
+def info_handler(bot, msg):
+    cmd = get_msg_command(msg.text)
     prefix = cmd == 'start' and 'start' or ''
     info_msg = get_bot_commands(prefix)
 

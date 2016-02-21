@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import json
 import telebot
-import handlers
+import handlers as handlers
 
 API_TOKEN = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(API_TOKEN)
@@ -13,12 +15,15 @@ commands = {
 }
 
 @bot.message_handler(commands=['start', 'help'])
-handlers.info_handler(message)
+def handleInfo(message):
+    handlers.info_handler(bot, message)
 
 @bot.message_handler(commands=['route'])
-handlers.process_handler(message)
+def handleRoute(message):
+    handlers.process_handler(bot, message)
 
 @bot.message_handler(commands=['prev', 'next'])
-handlers.step_handler(message)
+def handleStep(message):
+    handlers.step_handle(bot, message)
 
 bot.polling()
