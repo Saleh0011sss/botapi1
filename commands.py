@@ -14,36 +14,35 @@ bot_commands = {
     'route': 'know the route to go to any place'
 }
 
-def print_action(bot, msg, action):
+def print_action(bot, msg, process_name, start_index, action):
     bot.send_chat_action(msg.chat.id, action['alert'])
     bot.send_message(msg.chat.id, action['content'])
+    execute_action(bot, msg, process_name, start_index + 1)
 
-def prompt_action(bot, msg, action):
-    def create_validate_fn(msg):
+def prompt_action(bot, msg, process_name, start_index, action):
+
+    def validate(msg):
         if msg.text == 'Alex':
-            bot.send_chat_action(msg.chat.id, action['alert'])
-            bot.send_message(msg.chat.id, action['msg'])
+            execute_action(bot, msg, process_name, start_index + 1)
         else:
-            prompt_action(bot, msg, action)
+            prompt_action(bot, msg, process_name, start_index, action)
 
     bot.send_chat_action(msg.chat.id, action['alert'])
     bot.send_message(msg.chat.id, 'who\'s the best')
-    bot.register_next_step_handler(msg, create_next_step_handler)
+    bot.register_next_step_handler(msg, validate)
 
 
 def execute_action(bot, msg, process_name, start_index):
+    if start_index >= len(process_list[process_name]) - 1:
+        return
 
     process_actions = process_list[process_name]
 
     action = process_actions[start_index]
     if action['type'] == 'print':
-        print_action(bot, msg, action)
+        print_action(bot, msg, process_name, start_index, action)
     if action['type'] == 'prompt':
-        prompt_action(bot, msg, action)
-
-    next_index = start_index + 1
-    if next_index <= len(process_actions) - 1:
-        execute_action(bot, msg.chat.id, process_name, start_index + 1)
+        prompt_action(bot, msg, process_name, start_index, action)
 
 # def prev_action():
 #     if currentStep <= 0:
