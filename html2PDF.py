@@ -3,6 +3,7 @@ import os
 import json
 import telebot
 import pdfcrowd
+import urllib
 
 API_TOKEN = os.environ['TELEGRAM_TOKEN']
 #PDFCROWD_USERNAME = os.environ['PDFCROWD_USERNAME']
@@ -13,14 +14,42 @@ PDFCROWD_KEY = "218015675372493d0b8b8bc01fe8d0ea"
 
 bot = telebot.TeleBot(API_TOKEN)
 
-@bot.message_handler(commands=['recepeit'])
+@bot.message_handler(commands=['receipt'])
 def generate_receipt(message):
 
     chat_id = message.chat.id
     username = message.chat.username
     firstName = message.chat.first_name
+    filename = firstName + '_' + username + '_bill.pdf'
 
-    
+    input_html = os.path.dirname(os.path.realpath(__file__)) + '/static/bill.html'
+    output_pdf = os.path.dirname(os.path.realpath(__file__)) + filename
+
+    try:
+        bot.send_message(chat_id, 'I\'m genereting your recepit. Please be patient ;)')
+
+        # create an API client instance
+        client = pdfcrowd.Client(PDFCROWD_USERNAME, PDFCROWD_KEY)
+        # convert an HTML string and save the result to a file
+        
+
+        # Get a file-like object for the Python Web site's home page.
+        f = urllib.urlopen(input_html)
+        # Read from the object, storing the page's contents in 's'.
+        htmlPage = f.read()
+        f.close()
+
+        output_file = open(output_pdf, 'wb')
+        client.convertHtml(htmlPage, output_file)
+        output_file.close()
+
+        f = open(output_pdf, 'rb')  # some file on local disk
+        response = bot.send_document(chat_id, f)
+
+    except pdfcrowd.Error, why:
+        bot.send_message(chat_id, 'Sorry! I fail this time. We\'re goint to write you an email with the recepeit')
+        print('Failed: {}'.format(why))
+
 
 @bot.message_handler(commands=['document'])
 def send_travel(message):

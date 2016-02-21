@@ -8,3 +8,4 @@ pip install pyTelegramBotAPI
 pip install paypalrestsdk
 pip install pdfkit
 pip install pdfcrowd
+pip install lxml
