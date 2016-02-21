@@ -3,7 +3,7 @@
         {
             "content": "Great! Time to move. Where do you want to go?",
             "type": "print",
-            "alert" : "typing",
+            "alert" : "typing"
         },
         {
             "content": "Awesome! Now share your 🌎 location with me, so I know where you are",
