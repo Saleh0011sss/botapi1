@@ -21,7 +21,7 @@ API METHODS:
 - cardExist(chatID, cardNumber) :: True | False
 - getCardsUser(chatID) :: None | Dictionary
 
-- addPayment(chatID, creditNumber, descr, price, qty, orLat, orLon, destLat, destLon) :: True | False
+- addPayment(chatID, creditNumber, text, price, qty, origen, destination) :: True | False
 - paymentExist(chatID, cardNumber) :: True | False
 - getPaymentsUser(chatID) :: None | Dictionary
 """
@@ -133,7 +133,7 @@ def getCardsUser(chatID):
 """
 Add one payment to the user
 """
-def addPayment(chatID, creditNumber, descr, price, qty, orLat, orLon, destLat, destLon):
+def addPayment(chatID, creditNumber, text, price, qty, origen, destination):
 
     user = getUserByChat(chatID)
     
@@ -145,17 +145,11 @@ def addPayment(chatID, creditNumber, descr, price, qty, orLat, orLon, destLat, d
 
     payment = {
         "_id" : creditNumber,
-        "description" : descr,
+        "description" : text,
         "price" : price,
         "qty" : qty,
-        "origin" : {
-            "lat" : orLat,
-            "lon" : orLon
-        },
-        "destination" : {
-            "lat" : destLat,
-            "lon" : destLon
-        }
+        "origin" : origen,
+        "destination" : destination
     }
 
     insertedCard = db.users.update({ '_id' : chatID }, {  '$push': { 'payments' : payment }}, True);
@@ -170,18 +164,18 @@ def getPaymentsUser(chatID):
 
 #### TESTS CASES
 
-userIDNum = "099"
-print "Created user ---- "
-print addUser(userIDNum, 'Raquel', 'lopez@hola.com', 1231, 696996)
-print "User ----"
-print getUserByChat(userIDNum)
-print "User exists----"
-print userExists(userIDNum)
-print "Add card----"
-print addCard(userIDNum, '12121212121', '12/20', '300')
-print "Cards----"
-print getCardsUser(userIDNum)
-print "Add Payment----"
-print addPayment(userIDNum, '12121212121', 'El puto mejor viaje', '23232', '2', '2', '3', '3', '3')
-print "Get paymens----"
-print getPaymentsUser(userIDNum)
+#userIDNum = "099"
+# print "Created user ---- "
+# print addUser(userIDNum, 'Raquel', 'lopez@hola.com', 1231, 696996)
+# print "User ----"
+# print getUserByChat(userIDNum)
+# print "User exists----"
+# print userExists(userIDNum)
+# print "Add card----"
+# print addCard(userIDNum, '12121212121', '12/20', '300')
+# print "Cards----"
+# print getCardsUser(userIDNum)
+# print "Add Payment----"
+#print addPayment(userIDNum, '121212212121', 'El puto mejor viaje', '23232', '2', '2', '3')
+# print "Get paymens----"
+# print getPaymentsUser(userIDNum)
