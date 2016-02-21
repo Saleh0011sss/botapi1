@@ -32,6 +32,8 @@ def prompt_action(bot, msg, process_name, start_index, action):
 
     def validate(msg):
         if msg.text != '':
+            # if action['field'] == 'location'
+                # print msg.text
             user[action['field']] = msg.text
             execute_action(bot, msg, process_name, start_index + 1)
         else:
@@ -51,17 +53,23 @@ def execute_action(bot, msg, process_name, start_index):
         return
 
     if start_index == len(process_list[process_name]) - 1:
+
+        print user['chatID']
+        print model.getUserByChat(user['chatID'])
+
         # print user
-        print model.createUser(
+        inserted = model.createUser(
             user['chatID'],
             user['name'],
             user['email'],
             user['password'],
             user['phone']
         )
-        print "foo"
-        print msg.chat.id
-        print model.getUserByChat(msg.chat.id)
+
+        #if inserted / NEW USER
+        # ELSE / OLD USER
+
+        print model.getUserByChat(123123123)
 
     process_actions = process_list[process_name]
 

@@ -7,7 +7,7 @@
         },
         {
             "content": "Awesome! Now share your 🌎 location with me, so I know where you are",
-            "type": "print",
+            "type": "prompt",
             "alert" : "typing",
             "field": "location"
         },
