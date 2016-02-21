@@ -4,6 +4,9 @@ import json
 import utils
 import model
 import re
+import pdfcrowd
+import urllib
+import os
 
 user = {
     'chatID': '',
@@ -23,26 +26,97 @@ bot_commands = {
     'route': 'know the route to go to any place'
 }
 
+API_TOKEN = os.environ['TELEGRAM_TOKEN']
+#PDFCROWD_USERNAME = os.environ['PDFCROWD_USERNAME']
+#PDFCROWD_KEY = os.environ['PDFCROWD_USERNAME']
+
+PDFCROWD_USERNAME = "joralex"
+PDFCROWD_KEY = "218015675372493d0b8b8bc01fe8d0ea"
+
+def receipt_action(bot, msg, process_name, start_index, action):
+
+    chat_id = msg.chat.id
+    username = msg.chat.username
+    firstName = msg.chat.first_name
+
+    filename = '-' + firstName + '_' + username + '_bill.pdf'
+
+    input_html = os.path.dirname(os.path.realpath(__file__)) + '/static/bill.html'
+    output_pdf = os.path.dirname(os.path.realpath(__file__)) + filename
+
+    try:
+        bot.send_chat_action(chat_id, 'typing')
+        bot.send_message(chat_id, 'I\'m genereting your recepit. Please be patient ;)')
+        client = pdfcrowd.Client(PDFCROWD_USERNAME, PDFCROWD_KEY) # create an API client instance
+
+        # Get a file-like object for the Python Web site's home page.
+        f = urllib.urlopen(input_html)
+        # Read from the object, storing the page's contents in 's'.
+        htmlPage = f.read()
+        f.close()
+
+        service = 'Travel from madrid to Barcelona'
+        price = 30
+        quantity = 3
+        total = price * quantity
+
+        htmlPage = htmlPage % (service, price, quantity, total, total)
+
+        output_file = open(output_pdf, 'wb')
+        client.convertHtml(htmlPage, output_file)
+        output_file.close()
+
+        f = open(output_pdf, 'rb')  # some file on local disk
+        response = bot.send_document(chat_id, f)
+        f.close()
+
+    except pdfcrowd.Error, why:
+        bot.send_message(chat_id, 'Sorry! I fail this time. We\'re goint to write you an email with the recepeit. Promise 🙌🏻')
+        print('Failed: {}'.format(why))
+
+
 def print_action(bot, msg, process_name, start_index, action):
+    if 'params' in action:
+        content_params = action['params'] and action['params'] or []
+        if len(content_params) == 1:
+            action['content'].format(unicode(user[content_params[0]],'utf-8'), unicode(user[content_params[0]],'utf-8'), unicode(user[content_params[0]],'utf-8'))
+        elif len(content_params) == 2:
+            action['content'].format(unicode(user[content_params[0]],'utf-8'), unicode(user[content_params[0]],'utf-8'))
+        elif len(content_params) == 3:
+            action['content'].format(unicode(user[content_params[0]],'utf-8'))
+
     bot.send_chat_action(msg.chat.id, action['alert'])
     bot.send_message(msg.chat.id, action['content'])
     execute_action(bot, msg, process_name, start_index + 1)
 
 def prompt_action(bot, msg, process_name, start_index, action):
 
-    def validate(msg):
+    def validate_prompt(msg):
         if msg.text != '':
-            # if action['field'] == 'location'
-                # print msg.text
             user[action['field']] = msg.text
             execute_action(bot, msg, process_name, start_index + 1)
         else:
             prompt_action(bot, msg, process_name, start_index, action)
 
     bot.send_chat_action(msg.chat.id, action['alert'])
-    bot.send_message(msg.chat.id, action['content'])
-    bot.register_next_step_handler(msg, validate)
 
+    bot.send_message(msg.chat.id, action['content'])
+    bot.register_next_step_handler(msg, validate_prompt)
+
+def location_action(bot, msg, process_name, start_index, action):
+
+    def validate_location(msg):
+        if msg.text != 'Yes':
+            execute_action(bot, msg, process_name, start_index + 1)
+        else:
+            prompt_action(bot, msg, process_name, start_index, action)
+
+    bot.send_location(msg.chat.id, '41.382819', '2.116023')
+
+    bot.send_chat_action(msg.chat.id, action['alert'])
+
+    bot.send_message(msg.chat.id, action['content'])
+    bot.register_next_step_handler(msg, validate_location)
 
 def execute_action(bot, msg, process_name, start_index):
     if start_index == 0:
@@ -78,6 +152,10 @@ def execute_action(bot, msg, process_name, start_index):
         print_action(bot, msg, process_name, start_index, action)
     if action['type'] == 'prompt':
         prompt_action(bot, msg, process_name, start_index, action)
+    if action['type'] == 'receipt':
+        receipt_action(bot, msg, process_name, start_index, action)
+    if action['type'] == 'location':
+        location_action(bot, msg, process_name, start_index, action)
 
 def info(bot, msg):
     cmd_name = utils.get_command_name(msg.text)

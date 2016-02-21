@@ -23,7 +23,6 @@ def generate_receipt(message):
     username = message.chat.username
     firstName = message.chat.first_name
     print firstName
-    bot.send_location(chat_id, '20', '20')
 
     filename = '-' + firstName + '_' + username + '_bill.pdf'
 
@@ -38,7 +37,7 @@ def generate_receipt(message):
         # Get a file-like object for the Python Web site's home page.
         f = urllib.urlopen(input_html)
         # Read from the object, storing the page's contents in 's'.
-        htmlPage = f.read() 
+        htmlPage = f.read()
         f.close()
 
         service = 'Travel from madrid to Barcelona'
@@ -65,9 +64,9 @@ def generate_receipt(message):
 def send_travel(message):
 
     print message
-    
+
     chat_id = message.chat.id
- 
+
     name = message.chat.first_name
     html = "<h1>Thank you," + name + "</h1>"
     html += "<p>You have just bought your ticket</p>"

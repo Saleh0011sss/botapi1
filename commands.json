@@ -6,15 +6,17 @@
             "alert" : "typing"
         },
         {
-            "content": "Awesome! Now share your 🌎 location with me, so I know where you are",
-            "type": "prompt",
+            "content": "Awesome! We've received that you're here, is that true?",
+            "type": "location",
             "alert" : "typing",
             "field": "location"
         },
         {
-            "content": "So... You are in __X__, huh? Great city ;). How do you want to go to __City__?",
-            "type": "print",
-            "alert" : "typing"
+            "content": "How do you want to go to Plaza de España?",
+            "type": "selector",
+            "options": ["Car", "Walk", "Public transport"]
+            "alert" : "typing",
+            "params": []
         },
         {
             "content": "Thanks for your patience. This is the route I've calculated for you.",
@@ -33,7 +35,7 @@
             "field": "name"
         },
         {
-            "content": "Your email, __name__?",
+            "content": "Your email, Alex?",
             "type": "prompt",
             "alert" : "typing",
             "field": "email"
@@ -71,7 +73,7 @@
         },
         {
             "content": "Greaaat!!! This is your ticket.",
-            "type": "print",
+            "type": "receipt",
             "alert" : "typing"
         },
         {
@@ -80,7 +82,7 @@
             "alert" : "typing"
         },
         {
-            "content": "Bon voyage to __City__, __name__!",
+            "content": "Bon voyage to Plaza de España, Alex!",
             "type": "print",
             "alert" : "typing"
         }
