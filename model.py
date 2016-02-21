@@ -34,7 +34,7 @@ def getUserByChat(chatID):
     return database.getUserByChat(chatID)
 
 def addCard(chatID, cardNumber, expDate, CVC):
-    
+
     if empty(chatID) or empty(cardNumber) or empty(expDate) or empty(CVC):
         return False # Validation fails
 
@@ -43,6 +43,6 @@ def addCard(chatID, cardNumber, expDate, CVC):
 def addPayment(chatID, creditNumber, text, price, qty, origen, destination):
     # TODO: Add checks here :)
     return database.addPayment(chatID, creditNumber, text, price, qty, origen, destination)
-  
+
 # print createUser('111111111', 'Paco', 'paco@paco.com', '123', '121')
 # print addPayment('111111111', '39422943294394030', '12/20', '300', '1', '23,30', '23,30')
