@@ -25,3 +25,6 @@ export TELEGRAM_TOKEN="80141913:AAGnyI4m0KlayTTiswLkrG2w4P39Ifjn75A"
 ```bash
 python main.py
 ```
+
+5 | Open the bot you created on 2.5.
+    Write /route on the bot chat and reply all the questions
