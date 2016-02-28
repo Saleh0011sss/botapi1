@@ -1,28 +1,30 @@
 # Transport bot for Telegram
 
-# How to launch the application
-
-You can use the
+1 | Install all the dependencies using the bash script
 ```bash
-python -m virtualenv env
+    $ ./installPackages.sh
 ```
 
+2 | Create a new "telegram bot" using "botfather"
+  
+  1. Open telegram.
+  2. Search in contact: "botfather" (https://core.telegram.org/bots#botfather)
+  3. Inside botfather, type: /newbot
+  4. Follow the botfather instructions --> Now you have your bot created!!!
+  5. Click to the created bot link, example: telegram.me/YOUR_BOT_NAME
+  6. Copy the Telegram "TOKEN to access the HTTP API" that botfather gives you in the last message
 
-## Run application
-
-Place your Telegram token into an environment variable
+3 | Place your Telegram token (the one you get on point 2.6) into an environment variable
 
 ```bash
-export TELEGRAM_TOKEN='80141913:AAGnyI4m0KlayTTiswLkrG2w4P39Ifjn75A'
+export TELEGRAM_TOKEN="80141913:AAGnyI4m0KlayTTiswLkrG2w4P39Ifjn75A"
 ```
 
-Run the app
+4 | Run the app!
 
 ```bash
-python app.py
+python main.py
 ```
 
-
-# Install packages on azure
-$ env/bin/pip install pymongo
-$ env/bin/pip freeze > requirements.txt (to update the requirements)
+5 | Open the bot you created on 2.5.
+    Write /route on the bot chat and reply all the questions
